@@ -1,0 +1,401 @@
+cec@cec-H110M-S2:~$ mysql -u mca2252 -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 3
+Server version: 5.7.33-0ubuntu0.16.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2021, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| college            |
+| mysql              |
+| performance_schema |
+| silpas             |
+| sreeraj            |
+| sys                |
++--------------------+
+7 rows in set (0.09 sec)
+
+mysql> use silpas;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> show tables;
++------------------+
+| Tables_in_silpas |
++------------------+
+| Department       |
++------------------+
+1 row in set (0.00 sec)
+
+mysql> desc Department;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| dept_id | int(11)     | NO   | PRI | NULL    |       |
+| dname   | varchar(30) | YES  |     | NULL    |       |
+| hod     | varchar(30) | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+3 rows in set (0.02 sec)
+
+mysql>  create table Dept_ph(dept_ph
+    ->  create table Dept_ph(dept_id int,phno numeric(10),primary key(phno),foreign key dept_id references Department(dept_id));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'create table Dept_ph(dept_id int,phno numeric(10),primary key(phno),foreign key ' at line 2
+mysql> create table Dept_ph(phno numeric(10),primary key(phno),foreign key dept_id references Department(dept_id));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'references Department(dept_id))' at line 1
+mysql> create table Dept_ph(dept_ph  create table Dept_ph(dept_id int,phno numeric(10) primary key(phno),foreign key dept_id references Department(dept_id));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'create table Dept_ph(dept_id int,phno numeric(10) primary key(phno),foreign key ' at line 1
+mysql> create table Dept_ph(dept_ph  create table Dept_ph(dept_id int,phno numeric(10) primary key(phno),foreign key dept_id references Department(depcreate table Dept_ph(phno numeric(10),primary key(phno),foreign key dept_id references Department(dept_id));ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'references Department(dept_id))' at line 1
+mysql> create table Dept_ph(phno numeric(10) primary key,foreign key(dept_id) references Department(dept_id));
+ERROR 1072 (42000): Key column 'dept_id' doesn't exist in table
+mysql> create table Dept_ph(phno int primary key,foreign key(dept_id) references Department(dept_id));
+ERROR 1072 (42000): Key column 'dept_id' doesn't exist in table
+mysql> create table Dept_ph(dept_id int,phno numeric(10), primary key(dept_id,phno));
+Query OK, 0 rows affected (0.34 sec)
+
+mysql> create table Professor(empid int primary key, pname varchar(20),sex varchar(7),strt_yr int, dept_id int, foreign key(dept_id) references Department(dept_id) );
+Query OK, 0 rows affected (0.38 sec)
+
+mysql> desc Professor;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| empid   | int(11)     | NO   | PRI | NULL    |       |
+| pname   | varchar(20) | YES  |     | NULL    |       |
+| sex     | varchar(7)  | YES  |     | NULL    |       |
+| strt_yr | int(11)     | YES  |     | NULL    |       |
+| dept_id | int(11)     | YES  | MUL | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> create table Prof_ph(empid int,phno numeric(10),primary key(empid,phno));
+Query OK, 0 rows affected (0.42 sec)
+
+mysql> create table Student(rno int primary key,sname varchar(20),degree varchar(20), year varchar(20),sex varchar(7),dept_id int, empid int,foreign key(dept_id) references Department(dept_id),foreign key(empid) references Professor(empid));
+Query OK, 0 rows affected (0.37 sec)
+
+mysql> create table Course(cid int primary key, cname varchar(20),min_cred int, dept_id int ,foreign key(dept_id) references Department(dept_id),empid int, foreign key(empid) references Professor(empid));
+Query OK, 0 rows affected (0.46 sec)
+
+mysql> 
+mysql> create table Enroll(rno int, cid int,foreign key(rno) references Student(rno),foreign key(cid) references Course(cid));
+Query OK, 0 rows affected (0.40 sec)
+
+mysql> desc Student;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| rno     | int(11)     | NO   | PRI | NULL    |       |
+| sname   | varchar(20) | YES  |     | NULL    |       |
+| degree  | varchar(20) | YES  |     | NULL    |       |
+| year    | varchar(20) | YES  |     | NULL    |       |
+| sex     | varchar(7)  | YES  |     | NULL    |       |
+| dept_id | int(11)     | YES  | MUL | NULL    |       |
+| empid   | int(11)     | YES  | MUL | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+mysql> desc Course;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| cid      | int(11)     | NO   | PRI | NULL    |       |
+| cname    | varchar(20) | YES  |     | NULL    |       |
+| min_cred | int(11)     | YES  |     | NULL    |       |
+| dept_id  | int(11)     | YES  | MUL | NULL    |       |
+| empid    | int(11)     | YES  | MUL | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> desc Enroll
+    -> desc Enroll;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'desc Enroll' at line 2
+mysql> desc Enroll;
++-------+---------+------+-----+---------+-------+
+| Field | Type    | Null | Key | Default | Extra |
++-------+---------+------+-----+---------+-------+
+| rno   | int(11) | YES  | MUL | NULL    |       |
+| cid   | int(11) | YES  | MUL | NULL    |       |
++-------+---------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> desc Prof_ph;
++-------+---------------+------+-----+---------+-------+
+| Field | Type          | Null | Key | Default | Extra |
++-------+---------------+------+-----+---------+-------+
+| empid | int(11)       | NO   | PRI | NULL    |       |
+| phno  | decimal(10,0) | NO   | PRI | NULL    |       |
++-------+---------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> desc Department;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| dept_id | int(11)     | NO   | PRI | NULL    |       |
+| dname   | varchar(30) | YES  |     | NULL    |       |
+| hod     | varchar(30) | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> insert into Department values(121,'MCA','Prof.Bill'),(122,'CSE','Prof.Vikas'),(123,'MBA','Prof.Pradnya');
+Query OK, 3 rows affected (0.05 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from Department;
++---------+-------+--------------+
+| dept_id | dname | hod          |
++---------+-------+--------------+
+|     121 | MCA   | Prof.Bill    |
+|     122 | CSE   | Prof.Vikas   |
+|     123 | MBA   | Prof.Pradnya |
++---------+-------+--------------+
+3 rows in set (0.00 sec)
+
+mysql> insert into Professor values('2001','Becky',Female',1998,121),('2002','Seth',Male',2000,121),('2003','Charlotte',Male',1992,122),('2004','Andrade',Female',2001,123),('2005','Roman',Female',1990,123),('2006','John','Male',2020,122);
+    '> 
+    '> insert into Professor values('2001','Becky',Female',1998,121),('2002','Seth',Male',2000,121),('2003','Charlotte',Male',1992,122),('2004','Andrade',Female',2001,123),('2005','Roman',Female',1990,123),('2006','John','Male',2020,122);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '',1998,121),('2002','Seth',Male',2000,121),('2003','Charlotte',Male',1992,122),(' at line 1
+mysql> insert into Professor values('2001','Becky',Female',1998,121),('2002','Seth',Male',2000,121),('2003','Charlotte',Male',1992,122),('2004'insert into Professor values(2001,'Becky',Female',1998,121),(2002,'Seth',Male',2000,121),(2003,'Charlotte',Male',1992,122),(2004,'Andrade',Female',2001,123),(2005,'Roman',Female',1990,123),(2006,'John','Male',2020,122);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '',1998,121),('2002','Seth',Male',2000,121),('2003','Charlotte',Male',1992,122),(' at line 1
+mysql> insert into Professor values('2001','Becky',Female',1998,121),('2002','Seth',Male',2000,121),('2003','Charlotte',Male',1992,122),('2004'insert into Professor values(2001,'Becky','Female',1998,121),(2002,'Seth','Male',2000,121),(2003,'Charlotte','Male',1992,122),(2004,'Andrade','Female',2001,123),(2005,'Roman',Female',1990,123),(2006,'John','Male',2020,122);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '',1998,121),('2002','Seth',Male',2000,121),('2003','Charlotte',Male',1992,122),(' at line 1
+mysql> insert into Professor values('2001','Becky',Female',1998,121),('2002','Seth',Male',2000,121),('2003','Charlotte',Male',1992,122),('2004'insert into Professor values(2001,'Becky','Female','1998',121),(2002,'Seth','Male','2000',121),(2003,'Charlotte','Male','1992',122),(2004,'Andrade','Female','2001',123),(2005,'Roman',Female','1990',123),(2006,'John','Male','2020',122);
+ERROR 10insert into Professor values(2001,'Becky','Female','1998',121),(2002,'Seth','Male','2000',121),(2003,'Charlotte','Male','1992',122),(2004
+    '> 
+    '> 
+    '> insert into Professor values(2001,'Becky','Female','1998',121),(2002,'Seth','Male','2000',121),(2003,'Charlotte','Male','1992',122),(2004,'Andrade','Female','2001',123),(2005,'Roman',Female','1990',123),(2006,'John','Male','2020',122);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'iinsert into Professor values(2001,'Becky','Female','1998',121),(2002,'Seth','Ma' at line 1
+mysql> insert into Professor values(2001,'Becky','Female','1998',121),(2002,'Seth','Male','2000',121),(2003,'Charlotte','Male','1992',122),(2004,'Andrade','Female','2001',123),(2005,'Roman',Female','1990',123),(2006,'John','Male','2020',122);
+    '> 
+    '> insert into Professor values(2001,'Becky','Female','1998',121),(2002,'Seth','Male','2000',121),(2003,'Charlotte','Male','1992',122),(2004,'Andrade','Female','2001',123),(2005,'Roman',Female','1990',123),(2006,'John','Male','2020',122);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '','1990',123),(2006,'John','Male','2020',122);
+
+insert into Professor values(200' at line 1
+mysql> insert into Professor values(2001,'Becky','Female','1998',121),(2002,'Seth','Male','2000',121),(2003,'Charlotte','Male','1992',122),(2004,'Andrade','Female','2001',123),(2005,'Roman',Female','1990',123),(2006,'John','Male','2020',122);
+    '> insert into Professor values(2001,'Becky','Female','1998',121),(2002,'Seth','Male','2000',121),(2003,'Charlotte','Male','1992',122),(2004,'Andrade','Female','2001',123),(2005,'Roman',Female','1990',123),(2006,'John','Male','2020',122);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '','1990',123),(2006,'John','Male','2020',122);
+insert into Professor values(2001' at line 1
+mysql> insert into Professor values(2001,'Becky','Female','1998',121),(2002,'Seth','Male','2000',121),(2003,'Charlotte','Male','1992',122),(2004,'Andrade','Female','2001',123),(2005,'Roman',Female','1990',123),(2006,'John','Male','2020',122);
+    '> insert into Professor values(2001,'Becky','Female','1998',121),(2002,'Seth','Male','2000',121),(2003,'Charlotte','Male','1992',122),(2004,'Andrade','Female','2001',123),(2005,'Roman',Female','1990',123),(2006,'John','Male','2020',122);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '','1990',123),(2006,'John','Male','2020',122);
+insert into Professor values(2001' at line 1
+mysql> insert into Professor values(2001,'Becky','Female','1998',121),(2002,'Seth','Male','2000',121),(2003,'Charlotte','Male','1992',122),(2004,'Andrade','Female','2001',123),(2005,'Roman',Female','1990',123),(2006,'John','Male','2020',122);
+    '> insert into Professor values(2001,'Becky','Female','1998',121),(2002,'Seth','Male','2000',121),(2003,'Charlotte','Male','1992',122),(2004,'Andrade','Female','2001',123),(2005,'Roman',Female','1990',123),(2006,'John','Male','2020',122);
+insert into Professor values(2001,'Becky','Female','1998',121),(2002,'Seth','Male','2000',121),(2003,'Charlotte','Male','1992',122),(2004,'Andrade','Female','2001',123),(2005,'Roman',Female','1990',123),(2006,'John','Male','2020',122);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '','1990',123),(2006,'John','Male','2020',122);
+insert into Professor values(2001' at line 1
+    '> 
+    '> 
+    '> insert into Professor values(2001,'Becky','Female','1998',121),(2002,'Seth','Male','2000',121),(2003,'Charlotte','Male','1992',122),(2004,'Andrade','Female','2001',123),(2005,'Roman',Female','1990',123),(2006,'John','Male','2020',122);
+insert into Professor values(2001,'Becky','Female','1998',121),(2002,'Seth','Male','2000',121),(2003,'Charlotte','Male','1992',122),(2004,'Andrade','Female','2001',123),(2005,'Roman',Female','1990',123),(2006,'John','Male','2020',122);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '','1990',123),(2006,'John','Male','2020',122);
+
+
+insert into Professor values(20' at line 1
+    '> 
+    '> insert into Professor values(2001,'Becky','Female','1998',121),(2002,'Seth','Male','2000',121),(2003,'Charlotte','Male','1992',122),(200insert into Professor values(2001,'Becky','Female','1998',121),(2002,'Seth','Male','2000',121),(2003,'Charlotte','Male','1992',122),(2004,'Andrade','Female','2001',123),(2005,'Roman',Female','1990',123),(2006,'John','Male','2020',122);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '','1990',123),(2006,'John','Male','2020',122);
+
+insert into Professor values(200' at line 1
+    '> insert into Professor values(2001,'Becky','Female','1998',121),(2002,'Seth','Male','2000',121),(2003,'Charlotte','Male','1992',122),(2004,'Andrade','Female','2001',123),(2005,'Roman',Female','1990',123),(2006,'John','Male','2020',122);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '','1990',123),(2006,'John','Male','2020',122);
+insert into Professor values(2001' at line 1
+mysql> insert into Professor values(2001,'Becky','Female','1998',121),(2002,'Seth','Male','2000',121),(2003,'Charlotte','Male','1992',122),(2004,'Andrade','Female','2001',123),(2005,'Roman',Female','1990',123),(2006,'John','Male','2020',122);
+insert into Professor values(2001,'Becky','Female',1998,121),(2002,'Seth','Male',2000,121),(2003,'Charlotte','Male',1992,122),(2004,'Andrade','Female',2001,123),(2005,'Roman',Female',1990,123),(2006,'John','Male',2020,122);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '','1990',123),(2006,'John','Male','2020',122);
+insert into Professor values(2001' at line 1
+mysql> insert into Professor values(2001,'Becky','Female',1998,121),(2002,'Seth','Male',2000,121),(2003,'Charlotte','Male',1992,122),(2004,'Andrade','Female',2001,123),(2005,'Roman',Female',1990,123),(2006,'John','Male',2020,122);
+    '> insert into Professor values(2001,'Becky','Female',1998,121),(2002,'Seth','Male',2000,121),(2003,'Charlotte','Male',1992,122),(2004,'Andrade','Female',2001,123),(2005,'Roman',Female',1990,123),(2006,'John','Male',2020,122);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '',1990,123),(2006,'John','Male',2020,122);
+insert into Professor values(2001,'Be' at line 1
+mysql> insert into Professor values(2001,'Becky','Female',1998,121),(2002,'Seth','Male',2000,121),(2003,'Charlotte','Male',1992,122),(2004,'Andrade','Female',2001,123),(2005,'Roman',Female',1990,123),(2006,'John','Male',2020,122);
+    '> insert into Professor values(2001,'Becky','Female',1998,121),(2002,'Seth','Male',2000,121),(2003,'Charlotte','Male',1992,122),(2004,'Andrade','Female',2001,123),(2005,'Roman',Female',1990,123),(2006,'John','Male',2020,122);
+
+cec@cec-H110M-S2:~$ mysql -u mca2252 -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 4
+Server version: 5.7.33-0ubuntu0.16.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2021, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use silpas;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> desc Professor;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| empid   | int(11)     | NO   | PRI | NULL    |       |
+| pname   | varchar(20) | YES  |     | NULL    |       |
+| sex     | varchar(7)  | YES  |     | NULL    |       |
+| strt_yr | int(11)     | YES  |     | NULL    |       |
+| dept_id | int(11)     | YES  | MUL | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> insert into Professor values(2001,'Becky','Female',1998,121),(2002,'Seth','Male',2000,121),(2003,'Charlotte','Male',1992,122),(2004,'Andrade','Female',2001,123),(2005,'Roman',Female',1990,123),(2006,'John','Male',2020,122);
+    '> insert into Professor values(2001,'Becky','Female',1998,121),(2002,'Seth','Male',2000,121),(2003,'Charlotte','Male',1992,122),(2004,'Andrade','Female',2001,123),(2005,'Roman',Female',1990,123),(2006,'John','Male',2020,122);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '',1990,123),(2006,'John','Male',2020,122);
+insert into Professor values(2001,'Be' at line 1
+mysql> alter table Professor modify column strt_yr year;
+Query OK, 0 rows affected (0.92 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> insert into Professor values(2001,'Becky','Female',1998,121),(2002,'Seth','Male',2000,121),(2003,'Charlotte','Male',1992,122),(2004,'Andrade','Female',2001,123),(2005,'Roman',Female',1990,123),(2006,'John','Male',2020,122);
+    '> insert into Professor values(2001,'Becky','Female',1998,121),(2002,'Seth','Male',2000,121),(2003,'Charlotte','Male',1992,122),(2004,'Andrade','Female',2001,123),(2005,'Roman',Female',1990,123),(2006,'John','Male',2020,122);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '',1990,123),(2006,'John','Male',2020,122);
+insert into Professor values(2001,'Be' at line 1
+mysql> desc Professor;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| empid   | int(11)     | NO   | PRI | NULL    |       |
+| pname   | varchar(20) | YES  |     | NULL    |       |
+| sex     | varchar(7)  | YES  |     | NULL    |       |
+| strt_yr | year(4)     | YES  |     | NULL    |       |
+| dept_id | int(11)     | YES  | MUL | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> insert into Professor values(2001,'Becky','Female',1998,121),(2002,'Seth','Male',2000,121),(2003,'Charlotte','Male',1992,122),(2004,'Andrade','Female',2001,123),(2005,'Roman',Female',1990,123),(2006,'John','Male',2020,122);
+    '> ;
+    '> desc Professor;
+    '> 
+    '> 
+    '> 
+    '> 
+    '> ;
+    '> insert into Professor values(2001,'Becky','Female',1998,121),(2002,'Seth','Male',2000,121),(2003,'Charlotte','Male',1992,122),(2004,'Andrade','Female',2001,123),(2005,'Roman',Female',1990,123),(2006,'John','Male',2020,122);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '',1990,123),(2006,'John','Male',2020,122);
+;
+desc Professor;
+
+       insert into Professor values(2001,'Becky','Female',1998,121),(2002,'Seth','Male',2000,121),(2003,'Charlotte','Male',1992,122),(2004,'Andrade','Female',2001,123),(2005,'Roman',Female',1990,123),(2006,'John','Male',2020,122);
+insert into Professor values(2001,'Becky','Female',1998,121),(2002,'Seth','Male',2000,121),(2003,'Charlotte','Male',1992,122),(2004,'Andrade','Female',2001,123),(2005,'Roman',Female',1990,123),(2006,'John','Male',2020,122);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '',1990,123),(2006,'John','Male',2020,122);
+insert into Professor values(2001,'Be' at line 1
+mysql> 
+mysql> insert into Professor values(1001,'Jhon','Female',1998,121);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> insert into Professor values(1002,'Roman','Female',2000,121);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> insert into Professor values(1003,'Alexa','Female',1992,122),(1004,'Seth','Male',2002,123);
+Query OK, 2 rows affected (0.05 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from Professor;
++-------+-------+--------+---------+---------+
+| empid | pname | sex    | strt_yr | dept_id |
++-------+-------+--------+---------+---------+
+|  1001 | Jhon  | Female |    1998 |     121 |
+|  1002 | Roman | Female |    2000 |     121 |
+|  1003 | Alexa | Female |    1992 |     122 |
+|  1004 | Seth  | Male   |    2002 |     123 |
++-------+-------+--------+---------+---------+
+4 rows in set (0.00 sec)
+
+mysql> insert into Professor values(1005,'Amrish','Male',1990,122);
+Query OK, 1 row affected (0.06 sec)
+
+mysql> insert into Professor values(1006,'Sean','Male',1990,123);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> insert into Student values(11,'Pradnya','BCA',2019,'Female','121,1001);
+    '> insert into Student values(12,'Shalini','Bsc CS',2018,'Female','122,1003),(13,'Ditto','Bsc Ph',2019,'Male','123,1004),(14,'Ajay','BBA',2019,'Male','121,1002);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Shalini','Bsc CS',2018,'Female','122,1003),(13,'Ditto','Bsc Ph',2019,'Male','123' at line 1
+mysql> insert into Student values(11,'Pradnya','BCA',2019,'Female','121,1001);
+insert into Student values(12,'Shalini','Bsc CS',2018,'Female','122,1003),(13,'Ditto','Bsc Ph',2019,'Male','123,1004),(14,'Ajay','BBA',2019,'Male','121,1002);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Shalini','Bsc CS',2018,'Female','122,1003),(13,'Ditto','Bsc Ph',2019,'Male','123' at line 1
+mysql> insert into Student values(12,'Shalini','Bsc CS',2018,'Female','122,1003),(13,'Ditto','Bsc Ph',2019,'Male','123,1004),(14,'Ajay','BBA',2019,'Male','121,1002);
+    '> insert into Student values(12,'Shalini','Bsc CS',2018,'Female','122,1003),(13,'Ditto','Bsc Ph',2019,'Male','123,1004),(14,'Ajay','BBA',2019,'Male','121,1002);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Ditto','Bsc Ph',2019,'Male','123,1004),(14,'Ajay','BBA',2019,'Male','121,1002);
+' at line 1
+mysql> insert into Student values(12,'Shalini','Bsc CS',2018,'Female','122,1003);
+    '> 
+    '> insert into Student values(12,'Shalini','Bsc CS',2018,'Female','122,1003);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Shalini','Bsc CS',2018,'Female','122,1003)' at line 1
+insert into Student values(12,'Shalini','Bsc CS',2018,'Female','122,1003);,1003);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Shalini','Bsc CS',2018,'Female','122,1003)' at line 1
+insert into Student values(12,'Shalini','Bsc CS',2018,'Female',122,1003);,1003);
+insert into Student values(12,'Shalini','Bsc CS',2018,'Female',122,1003);2,1003);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Shalini','Bsc CS',2018,'Female',122,1003);
+insert into Student values(12,'Shalin' at line 1
+Query OK, 1 row affected (0.05 sec)
+
+mysql> select * from Student;
++-----+---------+--------+------+--------+---------+-------+
+| rno | sname   | degree | year | sex    | dept_id | empid |
++-----+---------+--------+------+--------+---------+-------+
+|  12 | Shalini | Bsc CS | 2018 | Female |     122 |  1003 |
++-----+---------+--------+------+--------+---------+-------+
+1 row in set (0.00 sec)
+
+mysql> insert into Student values(11,'Pradnya','BCA',2019,'Female',121,1001);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into Student values(13,'Ditto','Bsc Ph',2019,'Male',123,1004);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> insert into Student values(14,'Ajay','BBA',2019,'Male',121,1002);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> insert into Prof_phn values(121,987456123),(122,963528741),(123,875961234);
+ERROR 1146 (42S02): Table 'silpas.Prof_phn' doesn't exist
+mysql> insert into Prof_ph values(121,987456123),(122,963528741),(123,875961234);
+Query OK, 3 rows affected (0.05 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> drop Prof_ph;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Prof_ph' at line 1
+mysql> drop table Prof_ph;
+Query OK, 0 rows affected (0.23 sec)
+
+mysql> create table Prof_ph(empid int,phno numeric(10),primary key(empid,phno));
+Query OK, 0 rows affected (0.30 sec)
+
+mysql> insert into Prof_phn values(1001,987456123),(1002,963528741),(1003,875961234);
+ERROR 1146 (42S02): Table 'silpas.Prof_phn' doesn't exist
+mysql> insert into Prof_ph values(1001,987456123),(1002,963528741),(1003,875961234);
+Query OK, 3 rows affected (0.05 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> insert into Prof_ph values(1004,9855456123),(1005,977528741);
+Query OK, 2 rows affected (0.05 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> insert into Prof_ph values(1006,9855456124);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> insert into Dept_ph(121,784596123),(122,8974125663),(123,9963314711);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '121,784596123),(122,8974125663),(123,9963314711)' at line 1
+mysql> insert into Dept_ph(121,9784596123),(122,8974125663),(123,9963314711);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '121,9784596123),(122,8974125663),(123,9963314711)' at line 1
+mysql> insert into Dept_ph values(121,9784596123),(122,8974125663),(123,9963314711);
+Query OK, 3 rows affected (0.05 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> insert into Course values(201,'Btech','CSE',8,122,1003),(202,'Mtech','CSE',10,122,1003),(203,'MCA',9,121,1001
+
