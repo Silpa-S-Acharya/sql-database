@@ -24,6 +24,7 @@ select * from account;
 1.select cname from customer where city="Kochi";
 2.select bname from branch where city="Kochi";
 3. select c.cname from customer c,account a, branch b where c.cid=a.cid and b.bid=a.bid and bname="Mg Road";
+      select c.cname from customer c,account a, branch b where c.cid=a.cid and b.bid=a.bid and b.city="Mg Road";
 4. select c.cname from customer c,borrower b where c.cid=b.cid and c.city="Calicut";
 5.select cname from customer where cid in(select cid from account where bid in(select bid from account group by bid having avg(amnt)>32000));
 6. select b.bname,sum(a.amnt) from account a,branch b where a.bid=b.bid group by b.bname having sum(a.amnt)>5000;
