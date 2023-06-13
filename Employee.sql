@@ -35,4 +35,18 @@ mysql> select * from locations;
 |        1700 | Sector 17      |        2149 | Whitford  | United Kingdom |       2007 |
 +-------------+----------------+-------------+-----------+----------------+------------+
 5 rows in set (0.00 sec)
+mysql> insert into departments values(1,'Finance',1200),(2,'Marketing',1400),(3,'Sales',1700),(4,'Quality',1300),(5,'Engineer',1100);Query OK, 5 rows affected (0.06 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> select * from departments;
++---------+-----------+-------------+
+| dept_id | dept_name | location_id |
++---------+-----------+-------------+
+|       1 | Finance   |        1200 |
+|       2 | Marketing |        1400 |
+|       3 | Sales     |        1700 |
+|       4 | Quality   |        1300 |
+|       5 | Engineer  |        1100 |
++---------+-----------+-------------+
+5 rows in set (0.00 sec)
 
