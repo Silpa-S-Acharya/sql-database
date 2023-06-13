@@ -50,3 +50,7 @@ mysql> select * from departments;
 +---------+-----------+-------------+
 5 rows in set (0.00 sec)
 
+mysql> insert into jobs values(111,'Manager',60000,63000),(112,'AManager',45000,50000),(113,'HR',57000,60000),(114,'Security',28000,30000),(115,'SExecutive',29000,30000);
+Query OK, 5 rows affected (0.08 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
