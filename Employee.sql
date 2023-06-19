@@ -1,8 +1,21 @@
 mysql> create table employees(emp_id int primary key,fname varchar(10),lname varchar(10),email varchar(10),phno numeric(10),hire_date date,job_id int,salary int,manager_id int,dept_id int,foreign key (job_id) references jobs(job_id),foreign key (dept_id) references departments (dept_id) on delete cascade);^C
-mysql> insert into regions values(1001,'Sikkim'),(1002,'Mizoram'),(1003,'Waikato'),(1004,'Auckland'),(1005,'Chennai'),(1006,'Tripura'),(1007,'Taranaki');
-Query OK, 7 rows affected (0.05 sec)
+mysql> insert into regions values(1001,'Haryana'),(1002,'Sumatra'),(1003,'Jibla'),(1004,'Auckland'),(1005,'Chennai'),(1006,'Tianjin'),(1007,'Shanghai');
+Query OK, 7 rows affected (0.46 sec)
 Records: 7  Duplicates: 0  Warnings: 0
 
+mysql> select * from regions;
++----------+----------+
+| regionid | rname    |
++----------+----------+
+|     1001 | Haryana  |
+|     1002 | Sumatra  |
+|     1003 | Jibla    |
+|     1004 | Auckland |
+|     1005 | Chennai  |
+|     1006 | Tianjin  |
+|     1007 | Shanghai |
++----------+----------+
+7 rows in set (0.00 sec)
 mysql> insert into countries values(2001,'India',1001),(2002,'India',1002),(2003,'New Zealand',1003),(2004,'New Zealand',1004),(2005,'India',1005
 Query OK, 7 rows affected (0.06 sec)
 Records: 7  Duplicates: 0  Warnings: 0
@@ -64,4 +77,54 @@ mysql> select * from jobs;
 |    115 | SExecutive |  29000 |  30000 |
 +--------+------------+--------+--------+
 5 rows in set (0.01 sec)
-
+| DEPARTMENT_ID | DEPARTMENT_NAME      | MANAGER_ID | LOCATION_ID |
++---------------+----------------------+------------+-------------+
+|            10 | Administration       |        200 |        1700 |
+|            20 | Marketing            |        201 |        1800 |
+|            30 | Purchasing           |        114 |        1700 |
+|            40 | Human Resources      |        203 |        2400 |
+|            50 | Shipping             |        121 |        1500 |
+|            60 | IT                   |        103 |        1400 |
+|            70 | Public Relations     |        204 |        2700 |
+|            80 | Sales                |        145 |        2500 |
+|            90 | Executive            |        100 |        1700 |
+  emp_id | emp_name | job_name  | manager_id | hire_date  | salary  | commission | dep_id
+--------+----------+-----------+------------+------------+---------+------------+--------
+  68319 | KAYLING  | PRESIDENT |            | 1991-11-18 | 6000.00 |            |   1001
+  66928 | BLAZE    | MANAGER   |      68319 | 1991-05-01 | 2750.00 |            |   3001
+  67832 | CLARE    | MANAGER   |      68319 | 1991-06-09 | 2550.00 |            |   1001
+  65646 | JONAS    | MANAGER   |      68319 | 1991-04-02 | 2957.00 |            |   2001
+  67858 | SCARLET  | ANALYST   |      65646 | 1997-04-19 | 3100.00 |            |   2001
+  
+1.SELECT fname,lname
+  FROM employees 
+   WHERE locid = 1700;
+2. SELECT fname,lname
+  FROM employees 
+   WHERE locid not in 1700;
+3. SELECT max(salary)
+FROM employees;
+4.SELECT * FROM employees 
+WHERE salary > 
+ALL(SELECT avg(salary)FROM employees GROUP BY emp_id);
+5.SELECT departments.department_id, result1.total_amt 
+FROM departments,  
+( SELECT employees.department_id, SUM(employees.salary) total_amt  
+FROM employees  
+GROUP BY department_id) result1 
+WHERE result1.department_id = departments.department_id;
+6.SELECT first_name, last_name, salary, department_id  
+FROM employees  
+WHERE salary IN  
+( SELECT MIN(salary)  
+FROM employees  
+GROUP BY department_id 
+);
+7.SELECT dep_id,
+       avg(salary)
+FROM employees
+GROUP BY dep_id
+HAVING avg(salary) <
+  (SELECT avg(salary)
+   FROM employees);
+8.
