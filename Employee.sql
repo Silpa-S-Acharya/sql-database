@@ -95,7 +95,46 @@ mysql> select * from jobs;
   67832 | CLARE    | MANAGER   |      68319 | 1991-06-09 | 2550.00 |            |   1001
   65646 | JONAS    | MANAGER   |      68319 | 1991-04-02 | 2957.00 |            |   2001
   67858 | SCARLET  | ANALYST   |      65646 | 1997-04-19 | 3100.00 |            |   2001
-  
+  insert into employees values(68319,"Charlotte","Flair","charlotteflair09@gmail.com",9784562231,"2004-09-12",222,33000,147,50);
+insert into jobs values(222,"Asst.Manager",35000),(333,"Analyst",43000),(444,"Trainer",38000),(555,"Mangaing Director",68000),(666,"Accountant",78000),(111,"Manager",58000),(777,"Supporter",28000);
+ insert into departments values(10,"Administration",1700),(20,"Marketing",1800),(30,"Purchasing",1700),(50,"Shipping",1500),(60,"IT",1400),(90,"Executive",1700);
+ insert into locations values(1800,"Outer Ring Road",400008,"Nagapada","Tamil Nadu",204),(1400,"Dalian",116013,"Shahekou","Liaoning",205);
++-----+-----------+----------+
+| cid | cname     | regionid |
++-----+-----------+----------+
+| 201 | Indonesia |     1002 |
+| 202 | Yemen     |     1003 |
+| 203 | Germany   |     1004 |
+| 204 | India     |     1005 |
+| 205 | China     |     1006 |
+| 206 | China     |     1007 |
+| 207 | India     |     1001 |
++-----+-----------+----------+
+7 rows in set (0.00 sec)
+
+mysql> select * from regions;
++----------+----------+
+| regionid | rname    |
++----------+----------+
+|     1001 | Haryana  |
+|     1002 | Sumatra  |
+|     1003 | Jibla    |
+|     1004 | Auckland |
+|     1005 | Chennai  |
+|     1006 | Tianjin  |
+|     1007 | Shanghai |
++----------+----------+
+7 rows in set (0.04 sec)
+
+mysql> select * from locations;
++-------+-------------+--------+-------------+------------+------+
+| locid | saddress    | pcode  | city        | sprovince  | cid  |
++-------+-------------+--------+-------------+------------+------+
+|  1300 | New Bangaru | 600078 | K K Nagar   | Tamil Nadu |  204 |
+|  1500 | Nanjing     |  61105 | North China | Tianjin    |  206 |
+|  1700 | Crescent    |   1050 | Remuera     | Auckland   |  203 |
+|  1900 | Gorakhpur   | 122001 | Gurugram    | Chandigarh |  207 |
++-------+-------------+--------+-------------+------------+------+
 1.SELECT fname,lname
   FROM employees 
    WHERE locid = 1700;
