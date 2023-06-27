@@ -9,6 +9,9 @@ Records: 4  Duplicates: 0  Warnings: 0
  insert into departments values(1,"Public Relations",1800),(2,"Human Resources",1400),(3,"Sales",1800);
 mysql> insert into locations values(1800,"Outer Ring Road",400008,"Nagapada","Tamil Nadu",204),(1400,"Dalian",116013,"Shahekou","Liaoning",205);
 mysql> insert into departments values(10,"Administration",1700),(20,"Marketing",1800),(30,"Purchasing",1700),(50,"Shipping",1500),(60,"IT",1400),(90,"Executive",1700);
+insert into locations values(1300, "New Bangaru",600078,"K K Nagar","Tamil Nadu",204),(1400,"Dalian",116013,"Shahekou","Liaoning",205),(1500,"Nanjing",61105,"North China","Tianjin",206),(1700,"Crescent",1050,"Remuera","Auckland",203),(1800,"Outer Ring Road",400008,"Nagapada","Tamil Nadu",204),( 1900,"Gorakhpur",122001 ,"Gurugram","Chandigarh",207);
+insert ininsert into regions values(1001,"Haryana"),(1002,"Sumatra"),(1003,"Jibla"),(1004,"Auckland"),(1005,"Chennai"),(1006,"Tianjin"),(1007,"Shanghai");
+insert into countries values(201,"Indonesia",1002),(202,"Yemen",1003),(203,"Germany",1004),(204,"India",1005),(205,"China",1006),(206,"China",1007),(207,"India",1001);
 
 
 mysql> select * from jobs;
