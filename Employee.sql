@@ -12,21 +12,24 @@ mysql> insert into departments values(10,"Administration",1700),(20,"Marketing",
 insert into locations values(1300, "New Bangaru",600078,"K K Nagar","Tamil Nadu",204),(1400,"Dalian",116013,"Shahekou","Liaoning",205),(1500,"Nanjing",61105,"North China","Tianjin",206),(1700,"Crescent",1050,"Remuera","Auckland",203),(1800,"Outer Ring Road",400008,"Nagapada","Tamil Nadu",204),( 1900,"Gorakhpur",122001 ,"Gurugram","Chandigarh",207);
 insert ininsert into regions values(1001,"Haryana"),(1002,"Sumatra"),(1003,"Jibla"),(1004,"Auckland"),(1005,"Chennai"),(1006,"Tianjin"),(1007,"Shanghai");
 insert into countries values(201,"Indonesia",1002),(202,"Yemen",1003),(203,"Germany",1004),(204,"India",1005),(205,"China",1006),(206,"China",1007),(207,"India",1001);
-
+mysql> insert into jobs values(111,"Manager",22000,58000),(222,"Asst.Manager",11500,35000),(333,"Analyst",10000,43000),(444,"Trainer",9000,38000),(555,"Managing Director",25000,68000),(666,"Accountant",30000,78000),(777,"Supporter",12000,28000);
+Query OK, 7 rows affected (0.06 sec)
+Records: 7  Duplicates: 0  Warnings: 0
 
 mysql> select * from jobs;
-+-------+-------------------+--------+
-| jobid | job_title         | minsal |
-+-------+-------------------+--------+
-|   111 | Manager           |  58000 |
-|   222 | Asst.Manager      |  35000 |
-|   333 | Analyst           |  43000 |
-|   444 | Trainer           |  38000 |
-|   555 | Mangaing Director |  68000 |
-|   666 | Accountant        |  78000 |
-|   777 | Supporter         |  28000 |
-+-------+-------------------+--------+
-7 rows in set (0.02 sec)
++--------+-------------------+--------+--------+
+| job_id | job_title         | minSal | maxSal |
++--------+-------------------+--------+--------+
+|    111 | Manager           |  22000 |  58000 |
+|    222 | Asst.Manager      |  11500 |  35000 |
+|    333 | Analyst           |  10000 |  43000 |
+|    444 | Trainer           |   9000 |  38000 |
+|    555 | Managing Director |  25000 |  68000 |
+|    666 | Accountant        |  30000 |  78000 |
+|    777 | Supporter         |  12000 |  28000 |
++--------+-------------------+--------+--------+
+7 rows in set (0.00 sec)
+
 
 mysql> select * from locations;
 +-------+-----------------+--------+-------------+------------+------+
