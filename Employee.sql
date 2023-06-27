@@ -100,7 +100,14 @@ mysql> select * from departments;
 +--------+------------------+-------+
 9 rows in set (0.00 sec)
 
-1.SELECT fname,lname FROM employees WHERE locid = 1700;
+1.mysql> select e.* from employees e join departments l on e.dept_id=l.dept_id where l.location_id=1700;
++--------+-------+-------+---------------------+------------+------------+--------+--------+------------+---------+
+| emp_id | fname | lname | email               | phno       | hire_date  | job_id | salary | manager_id | dept_id |
++--------+-------+-------+---------------------+------------+------------+--------+--------+------------+---------+
+|  61234 | Randy | Orton | rkorton23@gmail.com | 9632587410 | 2002-05-11 |    333 |  55000 |        109 |      10 |
++--------+-------+-------+---------------------+------------+------------+--------+--------+------------+---------+
+1 row in set (0.00 sec)
+
 2. SELECT fname,lname
   FROM employees 
    WHERE locid not in 1700;
