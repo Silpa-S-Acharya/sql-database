@@ -126,6 +126,12 @@ mysql> select * from dependents;
 
 6. mysql> select departments.deptid,depname,employees.fname,employees.lname from departments,employees where departments.deptid=employees.deptid and employees.salary<10000;
 
+7. select e.employee_id,e.first_name,e.last_name,e.salary from employees e where e.salary> ALL (select min(salary) from employees group by department_id);
+
+8. select e.employee_id,e.first_name,e.last_name,e.salary from employees e where e.salary>= All (select max(salary) from employees group by department_id);
+
+9. select avg(sub.avgSalary) as 'Average salary' from (select avg(e.salary) as avgSalary from employees e group by e.department_id) sub ;
+ 
 10.select emp_id,fname,salary,(select avg(salary) from employees) as avg_salary,salary-(select avg(salary) from employees) as salary_diff from employees;
 
 11.mysql> select emp_id,fname,lname,salary,depname from employees,departments where employees.deptid=departments.deptid and salary>(select avg(salary) from employees);
@@ -180,3 +186,13 @@ mysql> select * from dependents;
 | Zack  | Ryder | Human Resources | Shahekou | Liaoning  |
 +-------+-------+-----------------+----------+-----------+
 1 row in set (0.16 sec)
+
+18. select e.first_name,e.last_name,d.department_id,d.department_name from employees e left join department d on e.department_id=d.department_id union select e.first_name,e.last_name,d.department_id,d.department_name from employees e right join department d on e.department_id=d.department_id ;
+
+19.  select empData.first_name,empData.manager_name from (select e.first_name,(select first_name from employees  where employee_id=e.manager_id)as manager_name from employees e)empData;
+
+20. select e.first_name,e.last_name,d.department_id from employees e join department d on e.department_id=d.department_id where d.department_id=(select department_id from employees where last_name like 'Taylor') ;
+
+21. select job_title,full_name,salary_difference from (select j.job_title,concat(e.first_name,' ',last_name) as full_name,j.max_salary-e.salary as salary_difference from employees e join jobs j on j.job_id=e.job_id) ej;
+
+22. 
