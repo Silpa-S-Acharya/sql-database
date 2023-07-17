@@ -196,3 +196,10 @@ mysql> select * from dependents;
 21. select job_title,full_name,salary_difference from (select j.job_title,concat(e.first_name,' ',last_name) as full_name,j.max_salary-e.salary as salary_difference from employees e join jobs j on j.job_id=e.job_id) ej;
 
 22. 
+23. create view delhi_employees as select ej.name,ej.employee_id,ej.phone_number,ej.job_title,d.department_name,ej.manager_name from ( select concat(e.first_name,' ',e.last_name) as name,e.employee_id,e.department_id,e.phone_number,j.job_title,(select concat(first_name, ' ' ,last_name) as fullname from employees where employee_id=e.manager_id) as manager_name from employees e join jobs j on j.job_id=e.job_id) ej join department d on d.department_id=ej.department_id ;
+24. select name from delhi_employees where job_title like 'manager' and department_name like 'finance';
+25. update delhi_employees set phone_number=121121121 where name like 'Smith%';
+26. select e.employee_id,e.first_name,e.last_name,e.email,e.phone_number,e.hire_date,e.job_id,e.salary,e.manager_id,e.department_id,d.dependent_id from employees e left join dependents d on d.employee_id=e.employee_id where dependent_id is null;
+27. select employee_id,first_name,last_name,email,phone_number,manager_id from employees where manager_id=101 union  select employee_id,first_name,last_name,email,phone_number,manager_id from employees where manager_id=201;
+28. select ed.employee_id,ed.first_name,ed.last_name,count(ed.employee_id) as No_of_Dependents from (select e.employee_id,e.first_name,e.last_name,d.dependent_id from employees e join dependents d on e.employee_id=d.employee_id) ed group by e.employee_id having No_of_Dependents>=1;
+
